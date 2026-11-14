@@ -4,26 +4,26 @@ import { Wordmark } from "./Wordmark";
 
 export function Footer() {
   return (
-    <footer className="mt-24 bg-ink text-paper">
+    <footer className="mt-24 border-t border-line bg-concrete text-ink">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <Wordmark className="text-3xl" />
-          <p className="mt-4 max-w-xs text-paper/70">Authentic sneakers in Kigali. Checked by hand, delivered to your door.</p>
+          <p className="mt-4 max-w-xs text-ink/60">Rwanda&apos;s sneaker store. Free delivery in Kigali, worldwide with DHL Express.</p>
         </div>
         <div className="text-sm">
           <p className="font-bold">Shop</p>
-          <ul className="mt-2 space-y-1.5 text-paper/70">
-            <li><Link href="/shop?brand=Jordan" className="hover:text-paper">Jordan</Link></li>
-            <li><Link href="/shop?brand=Nike" className="hover:text-paper">Nike</Link></li>
-            <li><Link href="/shop?brand=Adidas" className="hover:text-paper">Adidas</Link></li>
-            <li><Link href="/#request" className="hover:text-paper">Request a pair</Link></li>
+          <ul className="mt-2 space-y-1.5 text-ink/60">
+            <li><Link href="/shop?brand=Nike" className="hover:text-kgl">Nike</Link></li>
+            <li><Link href="/shop?brand=New+Balance" className="hover:text-kgl">New Balance</Link></li>
+            <li><Link href="/shop?brand=Adidas" className="hover:text-kgl">Adidas</Link></li>
+            <li><Link href="/#request" className="hover:text-kgl">Request a pair</Link></li>
           </ul>
         </div>
         <div className="text-sm">
           <p className="font-bold">Talk to us</p>
-          <ul className="mt-2 space-y-1.5 text-paper/70">
-            <li><a href={`https://wa.me/${STORE.whatsapp}`} target="_blank" rel="noopener" className="hover:text-paper">WhatsApp {STORE.phoneDisplay}</a></li>
-            <li><a href={STORE.instagram} target="_blank" rel="noopener" className="hover:text-paper">Instagram</a></li>
+          <ul className="mt-2 space-y-1.5 text-ink/60">
+            <li><a href={`https://wa.me/${STORE.whatsapp}`} target="_blank" rel="noopener" className="hover:text-kgl">WhatsApp {STORE.phoneDisplay}</a></li>
+            <li><a href={STORE.instagram} target="_blank" rel="noopener" className="hover:text-kgl">Instagram @kigali_kicks_</a></li>
             <li>{STORE.area}</li>
           </ul>
         </div>

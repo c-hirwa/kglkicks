@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { SIZES, waLink } from "@/lib/data";
 
-const field = "mt-1.5 w-full border-2 border-ink bg-paper px-3.5 py-3 focus:outline-none focus:ring-3 focus:ring-sky/40";
+const field = "mt-1.5 w-full rounded-xl border border-line bg-paper px-3.5 py-3 placeholder:text-ink/30 focus:border-kgl focus:outline-none focus:ring-3 focus:ring-kgl/30";
 
 export function RequestForm() {
   const [f, setF] = useState({ model: "", size: "", budget: "", name: "" });
@@ -33,17 +33,17 @@ export function RequestForm() {
         <select className={field} value={f.size} onChange={(e) => set("size", e.target.value)}>
           <option value="">Choose</option>
           {SIZES.map((s) => <option key={s}>{s}</option>)}
-          <option value="47+">47 or bigger</option>
+          <option value="46+">46 or bigger</option>
         </select>
       </label>
       <label className="block text-sm font-semibold">Budget in RWF (optional)
-        <input className={field} value={f.budget} onChange={(e) => set("budget", e.target.value.replace(/[^\d,]/g, ""))} inputMode="numeric" placeholder="200,000" />
+        <input className={field} value={f.budget} onChange={(e) => set("budget", e.target.value.replace(/[^\d,]/g, ""))} inputMode="numeric" placeholder="45,000" />
       </label>
       <label className="block text-sm font-semibold sm:col-span-2">Your name (optional)
         <input className={field} value={f.name} onChange={(e) => set("name", e.target.value)} autoComplete="name" />
       </label>
-      {err && <p role="alert" className="font-semibold text-red-700 sm:col-span-2">{err}</p>}
-      <button className="rounded-full bg-ink py-4 font-bold text-paper hover:bg-ink/85 sm:col-span-2">Send request on WhatsApp</button>
+      {err && <p role="alert" className="font-semibold text-red-400 sm:col-span-2">{err}</p>}
+      <button className="rounded-full bg-kgl py-4 font-bold text-white hover:bg-kgl-deep sm:col-span-2">Send request on WhatsApp</button>
     </form>
   );
 }

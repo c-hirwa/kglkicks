@@ -16,10 +16,10 @@ export function AddedToast() {
   return (
     <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
       {p && item && (
-        <div key={item.k} className="toast-in pointer-events-auto flex w-full max-w-md items-center gap-3 border-2 border-ink bg-paper p-2 pr-3 shadow-[6px_6px_0_#000]">
-          <img src={img(p.photos[0], 120, 120)} alt="" className="size-12 bg-concrete object-cover" />
+        <div key={item.k} className="toast-in pointer-events-auto flex w-full max-w-md items-center gap-3 rounded-2xl border border-line bg-concrete p-2 pr-3 shadow-2xl shadow-black/60">
+          <img src={img(p.photos[0])} alt="" className="shot size-12 rounded-xl object-cover" />
           <p className="min-w-0 flex-1 text-sm"><span className="font-bold">Added to bag.</span> <span className="text-muted">{name(p)}, EU {item.size}</span></p>
-          <button onClick={() => { setBagOpen(true); setItem(null); }} className="shrink-0 rounded-full bg-ink px-4 py-2 text-sm font-bold text-paper">View bag</button>
+          <button onClick={() => { setBagOpen(true); setItem(null); }} className="shrink-0 rounded-full bg-kgl px-4 py-2 text-sm font-bold text-white">View bag</button>
         </div>
       )}
     </div>
