@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { DELIVERY, bySlug, img, name, rwf, waLink } from "@/lib/data";
+import { DELIVERY, img, name, rwf, waLink } from "@/lib/data";
+import { useProducts } from "./ProductsProvider";
 import { clearBag, setBagOpen, setQty, useBag, useBagOpen } from "@/lib/bag";
 
 export function BagDrawer() {
   const open = useBagOpen();
   const bag = useBag();
+  const products = useProducts();
   const [zone, setZone] = useState(DELIVERY[0].id);
   const [pay, setPay] = useState("MoMo");
   const [who, setWho] = useState("");
@@ -21,7 +23,8 @@ export function BagDrawer() {
   }, [open]);
 
   if (!open) return null;
-  const lines = bag.map((l) => ({ ...l, p: bySlug(l.slug)! }));
+  // drop lines for shoes that were removed or hidden since they were added
+  const lines = bag.flatMap((l) => { const p = products.find((x) => x.slug === l.slug); return p ? [{ ...l, p }] : []; });
   const subtotal = lines.reduce((s, l) => s + l.p.price * l.qty, 0);
   const d = DELIVERY.find((x) => x.id === zone)!;
   const total = subtotal + d.fee;
@@ -75,7 +78,9 @@ export function BagDrawer() {
                           <span className="w-6 text-center">{l.qty}</span>
                           <button onClick={() => setQty(l.slug, l.size, Math.min(max, l.qty + 1))} disabled={l.qty >= max} className="grid size-8 place-items-center disabled:text-ink/20" aria-label="One more">+</button>
                         </div>
-                        {l.qty >= max && <span className="text-xs text-muted">That&apos;s all we have in EU {l.size}</span>}
+                        {max === 0 ? <span className="text-xs font-semibold text-red-400">Sold out in EU {l.size} now</span>
+                          : l.qty > max ? <span className="text-xs font-semibold text-sun">Only {max} left in EU {l.size}</span>
+                          : l.qty === max && <span className="text-xs text-muted">That&apos;s all we have in EU {l.size}</span>}
                       </div>
                     </div>
                     <p className="font-bold">{rwf(l.p.price * l.qty)}</p>

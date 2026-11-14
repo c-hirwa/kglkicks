@@ -26,7 +26,18 @@ npm install
 npm run dev     # http://localhost:3000
 ```
 
-## Adding new stock
+## Managing stock (`/admin`)
 
-Crop the post photo to a square, save it as `public/shoes/<name>.jpg`, then add an entry to `PRODUCTS` in `lib/data.ts`
-with `photos: ["<name>"]`, the price and the size range.
+Go to `/admin` and sign in with `ADMIN_PASSWORD` from `.env.local` (copy `.env.example` if it's missing; change the
+password there and restart the server). From the dashboard you can:
+
+- add a shoe with photos, brand, model, colourway, price, sale price, label and description
+- set stock per EU size, or tap − / + on the dashboard when a pair sells or comes in
+- hide a shoe from the shop without deleting it, or delete it (photos are removed too)
+- filter by running low, sold out or hidden, and search
+
+Shoes are stored in `data/inventory.json`, and uploaded photos in `data/uploads/` (served at `/media/...`).
+Changes show in the shop immediately. Edit the JSON by hand only while the server is stopped; the shop caches it.
+
+**Hosting:** this local storage needs one long-running server (`npm run build && npm start`, on a VPS or similar).
+Serverless hosts like Vercel don't keep files written at runtime, so there you'd swap `lib/inventory.ts` for a database.

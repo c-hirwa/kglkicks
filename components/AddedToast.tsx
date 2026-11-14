@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { bySlug, img, name } from "@/lib/data";
+import { img, name } from "@/lib/data";
+import { useProduct } from "./ProductsProvider";
 import { setBagOpen } from "@/lib/bag";
 
 export function AddedToast() {
@@ -12,7 +13,7 @@ export function AddedToast() {
     return () => window.removeEventListener("kglkicks:added", on);
   }, []);
   useEffect(() => { if (!item) return; const t = setTimeout(() => setItem(null), 3500); return () => clearTimeout(t); }, [item]);
-  const p = item && bySlug(item.slug);
+  const p = useProduct(item?.slug);
   return (
     <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
       {p && item && (

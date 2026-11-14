@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { bySlug, type Size } from "./data";
+import type { Size } from "./data";
 
 export type Line = { slug: string; size: Size; qty: number };
 const KEY = "kglkicks:bag";
@@ -13,7 +13,7 @@ const EMPTY: Line[] = [];
 function read(): Line[] {
   let r: string;
   try { r = localStorage.getItem(KEY) ?? "[]"; } catch { return cache; }
-  if (r !== raw) { raw = r; try { cache = (JSON.parse(r) as Line[]).filter((l) => bySlug(l.slug)); } catch { cache = []; } }
+  if (r !== raw) { raw = r; try { cache = JSON.parse(r) as Line[]; } catch { cache = []; } }
   return cache;
 }
 function write(lines: Line[]) {
@@ -24,9 +24,9 @@ const sub = (cb: () => void) => { window.addEventListener(EVT, cb); window.addEv
 
 export const useBag = () => useSyncExternalStore(sub, read, () => EMPTY);
 
-export function addToBag(slug: string, size: Size) {
+/** `max` is the pairs in stock for that size, so the bag never holds more than the shop has. */
+export function addToBag(slug: string, size: Size, max: number) {
   const lines = read();
-  const max = bySlug(slug)?.stock[size] ?? 0;
   const found = lines.find((l) => l.slug === slug && l.size === size);
   if (found) write(lines.map((l) => (l === found ? { ...l, qty: Math.min(max, l.qty + 1) } : l)));
   else write([...lines, { slug, size, qty: 1 }]);

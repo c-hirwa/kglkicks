@@ -1,0 +1,200 @@
+{
+  "products": [
+    {
+      "slug": "new-balance-990v4-grey",
+      "brand": "New Balance",
+      "model": "990v4",
+      "colorway": "Grey",
+      "price": 42500,
+      "photos": [
+        "/shoes/nb-990v4-grey.jpg"
+      ],
+      "stock": {
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3,
+        "44": 3,
+        "45": 3
+      },
+      "blurb": "Grey suede and mesh with the big N on the side. The dad-shoe classic that goes with everything.",
+      "hidden": false,
+      "createdAt": "2026-11-13T18:00:00.000Z",
+      "tag": "New"
+    },
+    {
+      "slug": "nike-free-metcon-7-triple-black",
+      "brand": "Nike",
+      "model": "Free Metcon 7",
+      "colorway": "Triple Black",
+      "price": 42500,
+      "photos": [
+        "/shoes/metcon-7-black.jpg"
+      ],
+      "stock": {
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3,
+        "44": 3,
+        "45": 3
+      },
+      "blurb": "All-black training shoe: flexible up front, stable at the heel. Gym to street without a second thought.",
+      "hidden": false,
+      "createdAt": "2026-11-13T17:00:00.000Z",
+      "tag": "New"
+    },
+    {
+      "slug": "on-cloudtilt-eclipse-cinder",
+      "brand": "On",
+      "model": "Cloudtilt",
+      "colorway": "Eclipse Cinder",
+      "price": 42500,
+      "photos": [
+        "/shoes/on-cloudtilt.jpg"
+      ],
+      "stock": {
+        "38": 3,
+        "39": 3,
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3
+      },
+      "blurb": "Soft knit upper on a chunky CloudTec sole in warm grey. Made for long days on your feet.",
+      "hidden": false,
+      "createdAt": "2026-11-13T16:00:00.000Z",
+      "tag": "New"
+    },
+    {
+      "slug": "nike-air-force-1-low-triple-white",
+      "brand": "Nike",
+      "model": "Air Force 1 Low",
+      "colorway": "Triple White",
+      "price": 36500,
+      "photos": [
+        "/shoes/af1-white.jpg"
+      ],
+      "stock": {
+        "36": 3,
+        "37": 3,
+        "38": 3,
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3,
+        "44": 3,
+        "45": 3
+      },
+      "blurb": "All white, all leather. The pair everyone needs at least one of.",
+      "hidden": false,
+      "createdAt": "2026-11-13T15:00:00.000Z"
+    },
+    {
+      "slug": "puma-speedcat-og-nuance-grey",
+      "brand": "Puma",
+      "model": "Speedcat OG",
+      "colorway": "Nuance Grey",
+      "price": 39500,
+      "photos": [
+        "/shoes/speedcat-grey.jpg"
+      ],
+      "stock": {
+        "36": 3,
+        "37": 3,
+        "38": 3,
+        "39": 3,
+        "40": 3,
+        "41": 3
+      },
+      "blurb": "Slim grey suede racing shoe with a low profile. The look of the season.",
+      "hidden": false,
+      "createdAt": "2026-11-13T14:00:00.000Z",
+      "tag": "New"
+    },
+    {
+      "slug": "nike-vomero-5-cool-grey",
+      "brand": "Nike",
+      "model": "Zoom Vomero 5",
+      "colorway": "Cool Grey",
+      "price": 42500,
+      "photos": [
+        "/shoes/vomero-5-grey.jpg"
+      ],
+      "stock": {
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3,
+        "44": 3,
+        "45": 3
+      },
+      "blurb": "Layered silver and grey mesh on a cushioned runner sole. Techy, comfy, everywhere right now.",
+      "hidden": false,
+      "createdAt": "2026-11-13T13:00:00.000Z"
+    },
+    {
+      "slug": "nike-dunk-low-midnight-navy",
+      "brand": "Nike",
+      "model": "Dunk Low",
+      "colorway": "Midnight Navy",
+      "price": 39500,
+      "photos": [
+        "/shoes/dunk-navy.jpg"
+      ],
+      "stock": {
+        "38": 3,
+        "39": 3,
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3
+      },
+      "blurb": "Navy overlays on white leather with a grey Swoosh. Easy to wear, easy to love.",
+      "hidden": false,
+      "createdAt": "2026-11-13T12:00:00.000Z"
+    },
+    {
+      "slug": "birkenstock-boston-taupe-haze",
+      "brand": "Birkenstock",
+      "model": "Boston",
+      "colorway": "Taupe Haze",
+      "price": 42500,
+      "photos": [
+        "/shoes/boston-taupe.jpg"
+      ],
+      "stock": {
+        "40": 3,
+        "41": 3,
+        "42": 3,
+        "43": 3,
+        "44": 3,
+        "45": 3
+      },
+      "blurb": "Suede clog on the cork footbed. Slip on, slip off, comfortable all day.",
+      "hidden": false,
+      "createdAt": "2026-11-13T11:00:00.000Z"
+    },
+    {
+      "slug": "adidas-samba-maroon",
+      "brand": "Adidas",
+      "model": "Samba",
+      "colorway": "Maroon",
+      "price": 37500,
+      "photos": [
+        "/shoes/samba-maroon.jpg"
+      ],
+      "stock": {
+        "36": 3,
+        "37": 3,
+        "38": 3,
+        "39": 3,
+        "40": 3,
+        "41": 3
+      },
+      "blurb": "Deep maroon leather, cream stripes and a gum sole. A fresh take on the Samba.",
+      "hidden": false,
+      "createdAt": "2026-11-13T10:00:00.000Z"
+    }
+  ]
+}

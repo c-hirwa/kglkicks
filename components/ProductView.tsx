@@ -2,27 +2,28 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PRODUCTS, SIZES, SIZE_CHART, bySlug, img, inStock, name, rwf, waLink, type Size } from "@/lib/data";
+import { SIZES, SIZE_CHART, img, inStock, name, rwf, waLink, type Product, type Size } from "@/lib/data";
 import { addToBag } from "@/lib/bag";
 import { ProductCard } from "./ProductCard";
+import { useProducts } from "./ProductsProvider";
 
 type System = "EU" | "US" | "UK";
 
-export function ProductView({ slug }: { slug: string }) {
-  const p = bySlug(slug)!;
+export function ProductView({ p }: { p: Product }) {
+  const products = useProducts();
   const [photo, setPhoto] = useState(0);
   const [size, setSize] = useState<Size | null>(null);
   const [sys, setSys] = useState<System>("EU");
   const [guide, setGuide] = useState(false);
   const [nudge, setNudge] = useState(false);
   const out = !inStock(p);
-  const related = PRODUCTS.filter((x) => x.slug !== p.slug && inStock(x)).sort((a, b) => Number(b.brand === p.brand) - Number(a.brand === p.brand) || Math.abs(a.price - p.price) - Math.abs(b.price - p.price)).slice(0, 4);
+  const related = products.filter((x) => x.slug !== p.slug && inStock(x)).sort((a, b) => Number(b.brand === p.brand) - Number(a.brand === p.brand) || Math.abs(a.price - p.price) - Math.abs(b.price - p.price)).slice(0, 4);
 
   const label = (s: Size) => (sys === "EU" ? String(s) : SIZE_CHART[s][sys === "US" ? 0 : 1]);
 
   function add() {
     if (!size) { setNudge(true); return; }
-    addToBag(p.slug, size);
+    addToBag(p.slug, size, p.stock[size] ?? 0);
   }
 
   return (
@@ -80,17 +81,18 @@ export function ProductView({ slug }: { slug: string }) {
               return (
                 <button key={s} role="radio" aria-checked={on} disabled={!n} onClick={() => { setSize(s); setNudge(false); }}
                   aria-label={`${sys} ${label(s)}${n ? "" : ", not available"}`}
-                  className={`rounded-2xl border py-3 text-center font-bold transition-colors disabled:cursor-not-allowed disabled:border-line/60 disabled:text-ink/20 disabled:[background:linear-gradient(to_top_right,transparent_calc(50%-1px),var(--color-line),transparent_calc(50%+1px))]
+                  className={`relative rounded-2xl border py-3 text-center font-bold transition-colors disabled:cursor-not-allowed disabled:border-line/60 disabled:text-ink/20 disabled:[background:linear-gradient(to_top_right,transparent_calc(50%-1px),var(--color-line),transparent_calc(50%+1px))]
                     ${on ? "border-kgl bg-kgl text-white" : "border-line bg-paper/60 hover:border-ink"}`}>
                   {label(s)}
+                  {n === 1 && !on && <span className="absolute -right-1 -top-1 size-2.5 rounded-full bg-sun ring-2 ring-paper" aria-hidden="true" />}
                 </button>
               );
             })}
           </div>
           <p className="mt-2 h-5 text-sm" aria-live="polite">
             {nudge && !size ? <span className="font-semibold text-red-400">Pick your size first.</span>
-              : size ? <span className="text-kgl">{sys} {label(size)} is in the store.</span>
-              : <span className="text-muted">Crossed-out sizes aren&apos;t available in this model.</span>}
+              : size ? ((p.stock[size] ?? 0) === 1 ? <span className="font-semibold text-sun">Last pair in {sys} {label(size)}.</span> : <span className="text-kgl">{sys} {label(size)} is in the store.</span>)
+              : <span className="text-muted">Crossed-out sizes are sold out. A yellow dot means one pair left.</span>}
           </p>
 
           {out ? (

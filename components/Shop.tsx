@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { BRANDS, PRODUCTS, SIZES, inStock, type Brand, type Size } from "@/lib/data";
+import { SIZES, brandsOf, inStock, newestFirst, type Size } from "@/lib/data";
+import { useProducts } from "./ProductsProvider";
 import { ProductCard } from "./ProductCard";
 
-const PRICE_CAPS = [38000, 40000];
+const PRICE_CAPS = [40000, 45000, 50000];
 
 export function Shop() {
   const params = useSearchParams();
   const router = useRouter();
   const path = usePathname();
-  const brand = params.get("brand") as Brand | null;
+  const products = useProducts();
+  const brands = brandsOf(products);
+  const brand = params.get("brand");
   const size = Number(params.get("size")) as Size || null;
   const max = Number(params.get("max")) || null;
   const sort = params.get("sort") ?? "new";
@@ -23,9 +26,9 @@ export function Shop() {
     router.replace(`${path}?${q}`, { scroll: false });
   };
 
-  const list = PRODUCTS
+  const list = products
     .filter((p) => (!brand || p.brand === brand) && (!size || (p.stock[size] ?? 0) > 0) && (!max || p.price <= max) && (all || size || inStock(p)))
-    .sort((a, b) => sort === "low" ? a.price - b.price : sort === "high" ? b.price - a.price : a.order - b.order);
+    .sort((a, b) => sort === "low" ? a.price - b.price : sort === "high" ? b.price - a.price : newestFirst(a, b));
 
   const chip = (on: boolean) => `rounded-full border px-3.5 py-1.5 text-sm font-bold transition-colors ${on ? "border-kgl bg-kgl text-white" : "border-line bg-concrete hover:border-ink"}`;
   const title = `${brand ?? "All sneakers"}${size ? ` in EU ${size}` : ""}`;
@@ -40,7 +43,7 @@ export function Shop() {
       <div className="mt-8 space-y-4 rounded-[1.75rem] border border-line bg-concrete/70 p-5 backdrop-blur">
         <div className="flex flex-wrap items-center gap-2">
           <span className="w-14 text-sm font-semibold text-muted">Brand</span>
-          {([null, ...BRANDS] as const).map((b) => (
+          {[null, ...brands].map((b) => (
             <button key={b ?? "all"} onClick={() => set("brand", b)} aria-pressed={brand === b} className={chip(brand === b)}>{b ?? "All"}</button>
           ))}
         </div>

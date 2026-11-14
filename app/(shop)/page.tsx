@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BRANDS, PRODUCTS, SIZES, STORE, bySlug, fromPrice, img, rwf, waLink } from "@/lib/data";
+import { SIZES, STORE, brandsOf, fromPriceOf, img, inStock, newestFirst, rwf, waLink, type Product } from "@/lib/data";
+import { getProducts } from "@/lib/inventory";
 import { ProductCard } from "@/components/ProductCard";
 import { RequestForm } from "@/components/RequestForm";
 
@@ -13,13 +14,24 @@ function Kicker({ n, children }: { n: string; children: React.ReactNode }) {
 
 const TICKER = ["New stock", "Free delivery in Kigali", "Free socks with every pair", "DHL worldwide", "Nike", "New Balance", "Adidas", "On", "Puma", "Birkenstock"];
 
-export default function Home() {
-  const latest = [...PRODUCTS].sort((a, b) => a.order - b.order);
-  const perSize = SIZES.map((s) => [s, PRODUCTS.filter((p) => (p.stock[s] ?? 0) > 0).length] as const);
-  const brands = BRANDS.map((b) => ({ b, n: PRODUCTS.filter((p) => p.brand === b).length, p: PRODUCTS.find((p) => p.brand === b)! }));
-  const samba = bySlug("adidas-samba-maroon")!;
-  const metcon = bySlug("nike-free-metcon-7-triple-black")!;
-  const boston = bySlug("birkenstock-boston-taupe-haze")!;
+/** Hero shoe: links to the product while it's in the shop, otherwise just floats there. */
+function Stage({ p, className, children, label }: { p?: Product; className: string; children: React.ReactNode; label: string }) {
+  return p
+    ? <Link href={`/shop/${p.slug}`} aria-label={`${label}, ${rwf(p.price)}`} className={className}>{children}</Link>
+    : <div className={className}>{children}</div>;
+}
+
+export default async function Home() {
+  const products = await getProducts();
+  const find = (slug: string) => products.find((p) => p.slug === slug);
+  const latest = products.filter(inStock).sort(newestFirst).slice(0, 9);
+  const perSize = SIZES.map((s) => [s, products.filter((p) => (p.stock[s] ?? 0) > 0).length] as const);
+  const brands = brandsOf(products).slice(0, 6).map((b) => ({ b, n: products.filter((p) => p.brand === b).length, p: products.find((p) => p.brand === b)! }));
+  const fromPrice = fromPriceOf(products.filter(inStock));
+  // the three hero cutouts are fixed artwork; their price tags only show while those shoes are on sale
+  const samba = find("adidas-samba-maroon");
+  const metcon = find("nike-free-metcon-7-triple-black");
+  const boston = find("birkenstock-boston-taupe-haze");
 
   return (
     <main className="overflow-x-clip">
@@ -38,7 +50,7 @@ export default function Home() {
               Rwanda&apos;s <span className="text-glow text-kgl">#1</span><br />sneaker<br />store.
             </h1>
             <p className="mt-6 max-w-md text-lg leading-relaxed text-ink/65">
-              Nike, New Balance, Adidas, On and more from <span className="font-bold text-ink">{rwf(fromPrice)}</span>.
+              Nike, New Balance, Adidas, On and more{fromPrice ? <> from <span className="font-bold text-ink">{rwf(fromPrice)}</span></> : null}.
               Order on WhatsApp. Free delivery in Kigali, free socks with every pair.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -50,7 +62,7 @@ export default function Home() {
                 className="rounded-full border border-white/20 bg-white/5 px-7 py-3.5 font-bold backdrop-blur transition hover:border-white/60">Order on WhatsApp</a>
             </div>
             <dl className="mt-10 grid max-w-md grid-cols-3 divide-x divide-white/10 border-t border-white/10 pt-6">
-              {[[`${STORE.followers}+`, "on Instagram"], [String(PRODUCTS.length), "new pairs"], ["Free", "Kigali delivery"]].map(([v, l]) => (
+              {[[`${STORE.followers}+`, "on Instagram"], [String(products.length), "models in store"], ["Free", "Kigali delivery"]].map(([v, l]) => (
                 <div key={l} className="px-4 first:pl-0">
                   <dt className="sr-only">{l}</dt>
                   <dd className="wide text-2xl sm:text-3xl">{v}</dd>
@@ -66,27 +78,27 @@ export default function Home() {
             <div className="spin-slow absolute inset-[6%] rounded-full border border-dashed border-kgl/30" aria-hidden="true" />
             <div className="absolute inset-[20%] rounded-full border border-white/5" aria-hidden="true" />
 
-            <Link href={`/shop/${metcon.slug}`} aria-label={`${metcon.model}, ${rwf(metcon.price)}`}
+            <Stage p={metcon} label="Nike Free Metcon 7"
               className="float shoe-shadow absolute right-[2%] top-[6%] w-[52%] opacity-90 transition hover:opacity-100 [--r:9deg] [animation-delay:-2s]">
               <img src="/shoes/cut/metcon-7-black.webp" alt="" className="w-full" />
-            </Link>
-            <Link href={`/shop/${boston.slug}`} aria-label={`${boston.model}, ${rwf(boston.price)}`}
+            </Stage>
+            <Stage p={boston} label="Birkenstock Boston"
               className="float shoe-shadow absolute bottom-[10%] left-[0%] w-[44%] [--r:-6deg] [animation-delay:-4s]">
               <img src="/shoes/cut/boston-taupe.webp" alt="" className="w-full" />
-            </Link>
-            <Link href={`/shop/${samba.slug}`} aria-label={`${samba.model}, ${rwf(samba.price)}`}
+            </Stage>
+            <Stage p={samba} label="Adidas Samba"
               className="float shoe-shadow absolute left-[12%] top-[34%] w-[78%] [--r:-8deg]">
               <img src="/shoes/cut/samba-maroon.webp" alt="Adidas Samba in maroon, Nike Free Metcon 7 in black and Birkenstock Boston in taupe" fetchPriority="high" className="w-full" />
-            </Link>
+            </Stage>
 
             {/* price hotspots */}
-            <Link href={`/shop/${samba.slug}`} className="absolute bottom-[22%] right-[2%] flex items-center gap-2.5 rounded-2xl border border-white/10 bg-black/60 py-2 pl-2 pr-4 backdrop-blur-md transition hover:border-kgl">
+            {samba && <Link href={`/shop/${samba.slug}`} className="absolute bottom-[22%] right-[2%] flex items-center gap-2.5 rounded-2xl border border-white/10 bg-black/60 py-2 pl-2 pr-4 backdrop-blur-md transition hover:border-kgl">
               <span className="grid size-9 place-items-center rounded-xl bg-kgl text-xs font-black text-white">NEW</span>
               <span className="text-left leading-tight"><span className="block text-xs text-muted">Samba &lsquo;{samba.colorway}&rsquo;</span><span className="font-bold">{rwf(samba.price)}</span></span>
-            </Link>
-            <Link href={`/shop/${metcon.slug}`} className="absolute left-[4%] top-[14%] hidden items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 text-sm backdrop-blur-md transition hover:border-kgl sm:flex">
+            </Link>}
+            {metcon && <Link href={`/shop/${metcon.slug}`} className="absolute left-[4%] top-[14%] hidden items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 text-sm backdrop-blur-md transition hover:border-kgl sm:flex">
               <span className="size-2 rounded-full bg-kgl" aria-hidden="true" /> Metcon 7 <span className="font-bold">{rwf(metcon.price)}</span>
-            </Link>
+            </Link>}
           </div>
         </div>
       </section>
@@ -112,7 +124,7 @@ export default function Home() {
             <h2 className="wide mt-3 text-4xl sm:text-5xl">New stock</h2>
           </div>
           <Link href="/shop" className="group inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-bold transition hover:border-kgl hover:text-kgl">
-            Shop all {PRODUCTS.length} <span className="transition group-hover:translate-x-1" aria-hidden="true">→</span>
+            Shop all {products.length} <span className="transition group-hover:translate-x-1" aria-hidden="true">→</span>
           </Link>
         </div>
         <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
