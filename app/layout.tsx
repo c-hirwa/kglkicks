@@ -6,10 +6,10 @@ import { BagDrawer } from "@/components/BagDrawer";
 import { AddedToast } from "@/components/AddedToast";
 
 export const metadata: Metadata = {
-  title: { default: "KGL Kicks, authentic sneakers in Kigali", template: "%s | KGL Kicks" },
-  description: "Authentic Jordans, Nike and Adidas in Kigali. See real sizes in stock, order on WhatsApp, pay with MoMo and get them delivered the same day.",
+  title: { default: "KGL Kicks, sneakers in Kigali", template: "%s | KGL Kicks" },
+  description: "Rwanda's sneaker store. Nike, New Balance, Adidas, On and more from 36,500 RWF. Order on WhatsApp, free delivery in Kigali, free socks with every pair.",
 };
-export const viewport: Viewport = { themeColor: "#000000" };
+export const viewport: Viewport = { themeColor: "#0b0b0c" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
