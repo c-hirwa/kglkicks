@@ -19,16 +19,53 @@
 
 html { color-scheme: dark; }
 body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); }
-/* product photos are shot on light grey; this keeps them from glowing on a dark page */
-.shot { background: #e9e9e7; }
+/* film grain over everything, so flat blacks feel like material instead of a void */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection { background: var(--color-kgl); color: #fff; }
+
+/* product photos are shot on light grey: give them a soft studio tile */
+.shot { background: radial-gradient(120% 90% at 50% 35%, #f6f6f4, #dcdcd8); }
 .grain { background-image: radial-gradient(circle at 20% 0%, rgb(34 164 71 / .18), transparent 55%), radial-gradient(circle at 100% 100%, rgb(34 164 71 / .08), transparent 50%); }
+/* faint blueprint grid that fades out toward the edges */
+.gridlines {
+  background-image: linear-gradient(rgb(255 255 255 / .045) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / .045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+.outline-text { color: transparent; -webkit-text-stroke: 1.5px rgb(243 242 238 / .14); }
+.text-glow { text-shadow: 0 0 40px rgb(34 164 71 / .55); }
+.shoe-shadow { filter: drop-shadow(0 30px 25px rgb(0 0 0 / .65)) drop-shadow(0 6px 6px rgb(0 0 0 / .4)); }
+
+/* hover-lift card with a green rim light */
+.card { transition: transform .35s cubic-bezier(.2,.9,.3,1), border-color .35s, box-shadow .35s; }
+.card:hover { transform: translateY(-6px); border-color: rgb(34 164 71 / .55); box-shadow: 0 24px 60px -20px rgb(34 164 71 / .35), 0 0 0 1px rgb(34 164 71 / .2) inset; }
+
+/* scrolling ticker */
+@keyframes marquee { to { transform: translateX(-50%) } }
+.marquee { animation: marquee 32s linear infinite; }
+/* hero shoes bob gently, each on its own beat */
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)) } 50% { transform: translateY(-14px) rotate(var(--r, 0deg)) } }
+.float { animation: float 6s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg) } }
+.spin-slow { animation: spin 40s linear infinite; }
+@keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgb(34 164 71 / .6) } 100% { box-shadow: 0 0 0 14px rgb(34 164 71 / 0) } }
+.pulse { animation: pulse-ring 1.8s ease-out infinite; }
+
+/* sections rise in as they scroll into view (browsers without scroll timelines just show them) */
+@keyframes rise { from { opacity: 0; transform: translateY(40px) } to { opacity: 1; transform: none } }
+@supports (animation-timeline: view()) {
+  .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
+}
 :focus-visible { outline: 3px solid var(--color-kgl); outline-offset: 2px; }
 
 /* Expanded, heavy Archivo: the shoebox-label voice */
 .wide { font-variation-settings: "wdth" 125; font-weight: 900; letter-spacing: -0.02em; }
 .semiwide { font-variation-settings: "wdth" 112; font-weight: 800; }
 
-/* drop countdown digits flip in when they change */
+/* bag count flips in when it changes */
 @keyframes tick { from { transform: translateY(-40%); opacity: 0 } to { transform: none; opacity: 1 } }
 .tick { display: inline-block; animation: tick .25s ease-out; }
 @keyframes slide-in { from { transform: translateX(100%) } to { transform: none } }
