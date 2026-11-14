@@ -26,14 +26,15 @@ export function ProductView({ slug }: { slug: string }) {
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 sm:px-6">
+    <main className="relative mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="pointer-events-none absolute -top-20 left-0 -z-10 size-[40rem] rounded-full bg-kgl/15 blur-[140px]" aria-hidden="true" />
       <nav className="py-4 text-sm text-muted" aria-label="Breadcrumb">
         <Link href="/shop" className="hover:text-ink hover:underline">Shop</Link> / <Link href={`/shop?brand=${encodeURIComponent(p.brand)}`} className="hover:text-ink hover:underline">{p.brand}</Link>
       </nav>
       <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr]">
         {/* gallery */}
         <div>
-          <div className="shot relative overflow-hidden rounded-3xl">
+          <div className="shot relative overflow-hidden rounded-[2rem] shadow-[0_40px_100px_-30px_rgb(34_164_71/.45)] ring-1 ring-white/10">
             <img key={photo} src={img(p.photos[photo])} alt={name(p)} className="fade-in aspect-square w-full object-cover" />
             {p.photos.length > 1 && (
               <div className="absolute bottom-3 right-3 flex gap-2">
@@ -55,10 +56,10 @@ export function ProductView({ slug }: { slug: string }) {
         </div>
 
         {/* buy box */}
-        <div className="lg:sticky lg:top-32 lg:self-start">
-          <p className="font-semibold text-muted">{p.brand}</p>
+        <div className="lg:sticky lg:top-28 lg:self-start lg:rounded-[2rem] lg:border lg:border-line lg:bg-concrete/70 lg:p-8 lg:backdrop-blur">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-kgl">{p.brand}</p>
           <h1 className="wide mt-1 text-3xl leading-tight sm:text-4xl">{p.model} <span className="text-muted">&lsquo;{p.colorway}&rsquo;</span></h1>
-          <p className="mt-3 text-2xl font-bold text-kgl">
+          <p className="mt-4 inline-block rounded-full bg-kgl/12 px-4 py-1.5 text-2xl font-bold text-kgl ring-1 ring-kgl/30">
             {rwf(p.price)} {p.wasPrice && <s className="ml-2 text-lg font-normal text-muted">{rwf(p.wasPrice)}</s>}
           </p>
           <p className="mt-4 max-w-md text-ink/70">{p.blurb}</p>
@@ -79,8 +80,8 @@ export function ProductView({ slug }: { slug: string }) {
               return (
                 <button key={s} role="radio" aria-checked={on} disabled={!n} onClick={() => { setSize(s); setNudge(false); }}
                   aria-label={`${sys} ${label(s)}${n ? "" : ", not available"}`}
-                  className={`rounded-xl border py-3 text-center font-bold transition-colors disabled:cursor-not-allowed disabled:border-line/60 disabled:text-ink/20 disabled:[background:linear-gradient(to_top_right,transparent_calc(50%-1px),var(--color-line),transparent_calc(50%+1px))]
-                    ${on ? "border-kgl bg-kgl text-white" : "border-line bg-concrete hover:border-ink"}`}>
+                  className={`rounded-2xl border py-3 text-center font-bold transition-colors disabled:cursor-not-allowed disabled:border-line/60 disabled:text-ink/20 disabled:[background:linear-gradient(to_top_right,transparent_calc(50%-1px),var(--color-line),transparent_calc(50%+1px))]
+                    ${on ? "border-kgl bg-kgl text-white" : "border-line bg-paper/60 hover:border-ink"}`}>
                   {label(s)}
                 </button>
               );
@@ -97,14 +98,14 @@ export function ProductView({ slug }: { slug: string }) {
               className="mt-4 block rounded-full bg-ink py-4 text-center font-bold text-paper">Tell me when it&apos;s back</a>
           ) : (
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <button onClick={add} className="rounded-full bg-ink py-4 font-bold text-paper hover:bg-ink/85">Add to bag</button>
+              <button onClick={add} className="rounded-full bg-ink py-4 font-bold text-paper transition hover:bg-white">Add to bag</button>
               <a href={size ? waLink(`Hi KGL Kicks! I'd like the ${name(p)} in EU ${size} (${rwf(p.price)}). Is it available today?`) : undefined}
                 onClick={(e) => { if (!size) { e.preventDefault(); setNudge(true); } }} target="_blank" rel="noopener"
-                className="rounded-full bg-kgl py-4 text-center font-bold text-white hover:bg-kgl-deep">Order on WhatsApp</a>
+                className="rounded-full bg-kgl py-4 text-center font-bold text-white shadow-[0_10px_40px_-12px] shadow-kgl transition hover:bg-kgl-deep">Order on WhatsApp</a>
             </div>
           )}
 
-          <ul className="mt-8 divide-y divide-line rounded-2xl border border-line bg-concrete text-sm">
+          <ul className="mt-8 divide-y divide-line rounded-2xl border border-line bg-paper/60 text-sm">
             <li className="flex gap-3 p-4"><span className="w-20 shrink-0 font-bold">Delivery</span><span className="text-ink/70">Free anywhere in Kigali. Abroad with DHL Express.</span></li>
             <li className="flex gap-3 p-4"><span className="w-20 shrink-0 font-bold">Bonus</span><span className="text-ink/70">Free socks with every pair.</span></li>
             <li className="flex gap-3 p-4"><span className="w-20 shrink-0 font-bold">Store</span><span className="text-ink/70">Want to try them on first? Visit us in Kigali.</span></li>
@@ -115,7 +116,7 @@ export function ProductView({ slug }: { slug: string }) {
       {related.length > 0 && (
         <section className="mt-20">
           <h2 className="wide text-3xl">You might also like</h2>
-          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {related.map((r) => <ProductCard key={r.slug} p={r} />)}
           </div>
         </section>

@@ -31,11 +31,13 @@ export function Shop() {
   const title = `${brand ?? "All sneakers"}${size ? ` in EU ${size}` : ""}`;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 pt-8 sm:px-6">
-      <h1 className="wide text-4xl sm:text-5xl">{title}</h1>
+    <main className="relative mx-auto max-w-7xl px-4 pt-10 sm:px-6">
+      <div className="pointer-events-none absolute -top-24 right-0 -z-10 size-[36rem] rounded-full bg-kgl/15 blur-[140px]" aria-hidden="true" />
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-kgl">KGL Kicks store</p>
+      <h1 className="wide mt-2 text-4xl sm:text-6xl">{title}</h1>
       <p className="mt-1 text-muted" aria-live="polite">{list.length} {list.length === 1 ? "pair" : "pairs"}{size ? " we can deliver in your size today" : ""}</p>
 
-      <div className="mt-6 space-y-4 rounded-2xl border border-line bg-concrete/60 p-4">
+      <div className="mt-8 space-y-4 rounded-[1.75rem] border border-line bg-concrete/70 p-5 backdrop-blur">
         <div className="flex flex-wrap items-center gap-2">
           <span className="w-14 text-sm font-semibold text-muted">Brand</span>
           {([null, ...BRANDS] as const).map((b) => (
@@ -76,7 +78,7 @@ export function Shop() {
           <Link href="/#request" className="mt-5 inline-block rounded-full bg-kgl px-6 py-3 font-bold text-white">Request a pair</Link>
         </div>
       ) : (
-        <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {list.map((p, i) => <ProductCard key={p.slug} p={p} size={size} eager={i < 4} />)}
         </div>
       )}

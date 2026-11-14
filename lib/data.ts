@@ -8,6 +8,11 @@ export const STORE = {
   instagram: "https://www.instagram.com/kigali_kicks_/",
   followers: "35K",
   area: "Kigali, Rwanda",
+  address: "KG 594 St, Kigali",
+  /** The store's own Google Maps listing ("Kigali Kicks Store (KGL KICKS)"), so directions start from wherever the visitor is. */
+  mapsUrl: "https://maps.google.com/?cid=3905124967199394403" as string | null,
+  /** "Scan for directions" card from their Instagram post instagram.com/p/DZrgVN6NMmK */
+  mapsQr: "/store/maps-qr.jpg" as string | null,
 };
 
 /** Product photos live in /public/shoes, cropped from the store's own Instagram posts. */
