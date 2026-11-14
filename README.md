@@ -5,7 +5,7 @@ A website for KGL Kicks ([@kigali_kicks_](https://www.instagram.com/kigali_kicks
 **Data in `lib/data.ts`** comes from their Instagram posts of 13 Nov 2026: the 9 shoes, prices (36,500 to 42,500 RWF),
 size ranges, WhatsApp number (+250 784 144 914), free delivery in Kigali, free socks, DHL worldwide shipping.
 Their posts don't give pair counts per size, so every listed size is treated as in stock. Product photos in
-`public/shoes/` are cropped from those posts; store photos in `public/store/` are from their reels.
+`public/shoes/` are cropped from those posts; store photos in `public/store/` are from their reels, and `maps-qr.jpg` is their "Scan for directions" post.
 The wordmark is plain text, not their logo.
 
 **Stack:** Next.js 16 (App Router), TypeScript, Tailwind CSS v4. Font: Archivo (variable width) via Fontsource.
