@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@import "@fontsource-variable/archivo/wdth.css";
+
+@theme {
+  --color-ink: #000;
+  --color-paper: #fff;
+  --color-concrete: #efeeea;
+  --color-line: #dedcd6;
+  --color-muted: #6b6b6b;
+  --color-sky: #00a1de;   /* Rwandan flag blue */
+  --color-sky-deep: #0083b5;
+  --color-sun: #fad201;   /* flag yellow */
+  --color-leaf: #20603d;  /* flag green */
+  --font-sans: "Archivo Variable", system-ui, sans-serif;
+}
+
+body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); }
+:focus-visible { outline: 3px solid var(--color-sky); outline-offset: 2px; }
+
+/* Expanded, heavy Archivo: the shoebox-label voice */
+.wide { font-variation-settings: "wdth" 125; font-weight: 900; letter-spacing: -0.02em; }
+.semiwide { font-variation-settings: "wdth" 112; font-weight: 800; }
+
+/* drop countdown digits flip in when they change */
+@keyframes tick { from { transform: translateY(-40%); opacity: 0 } to { transform: none; opacity: 1 } }
+.tick { display: inline-block; animation: tick .25s ease-out; }
+@keyframes slide-in { from { transform: translateX(100%) } to { transform: none } }
+.drawer-in { animation: slide-in .3s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+.fade-in { animation: fade .2s ease both; }
+@keyframes toast { from { transform: translateY(120%) } to { transform: none } }
+.toast-in { animation: toast .3s cubic-bezier(.2,.9,.3,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
